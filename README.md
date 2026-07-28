@@ -36,7 +36,7 @@ flowchart LR
 
     subgraph S["practice-fusion-mcp"]
       direction TB
-      T["13 read tools<br/>patients · providers · appointments<br/>conditions · meds · labs · vitals<br/>allergies · immunizations<br/>encounters · documents · coverage"]
+      T["14 read tools<br/>patients · providers · appointments<br/>conditions · meds · labs · vitals<br/>allergies · immunizations<br/>encounters · documents · coverage · everything"]
       A["Audit logger<br/>stderr + optional file<br/>PHI-redacted"]
       F["FHIR client<br/>Bundle unwrap · shapers<br/>pagination · sanitized errors"]
       TP["SMART backend-services<br/>TokenProvider<br/>signed JWT assertion · token cache"]
@@ -83,6 +83,12 @@ All tools are namespaced with a `practicefusion_` prefix (so they don't collide 
 | `practicefusion_get_encounters`   | A patient's clinical encounters (visits)               |
 | `practicefusion_get_documents`    | A patient's document references (note metadata)        |
 | `practicefusion_get_coverage`     | A patient's insurance Coverage (status, payer, period) |
+
+**Summary**
+
+| Tool                            | What it does                                                                                                                                         |
+| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `practicefusion_get_everything` | Pre-visit summary for a single patient — per-type counts plus a bounded sample of raw resources (FHIR `$everything` with a per-type-search fallback) |
 
 ## Example
 

@@ -17,6 +17,7 @@ async function connect(searchImpl: () => Promise<unknown[]> = async () => []) {
   const client = {
     search: vi.fn().mockImplementation(searchImpl),
     read: vi.fn(),
+    everything: vi.fn().mockResolvedValue([]),
   } as unknown as FhirClient;
   const audit = new AuditLogger();
   vi.spyOn(audit, "record").mockImplementation(() => {});
@@ -29,17 +30,18 @@ async function connect(searchImpl: () => Promise<unknown[]> = async () => []) {
 }
 
 describe("server integration (in-memory MCP transport)", () => {
-  it("lists all 13 tools, each read-only with an output schema", async () => {
+  it("lists all 14 tools, each read-only with an output schema", async () => {
     const { server, mcpClient } = await connect();
     const { tools } = await mcpClient.listTools();
 
-    expect(tools).toHaveLength(13);
+    expect(tools).toHaveLength(14);
     for (const tool of tools) {
       expect(tool.annotations?.readOnlyHint).toBe(true);
       expect(tool.outputSchema).toBeDefined();
     }
     expect(tools.map((t) => t.name)).toContain("practicefusion_search_patients");
     expect(tools.map((t) => t.name)).toContain("practicefusion_get_coverage");
+    expect(tools.map((t) => t.name)).toContain("practicefusion_get_everything");
 
     await mcpClient.close();
     await server.close();
