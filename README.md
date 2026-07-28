@@ -23,6 +23,7 @@ Read-only by design. Audit-logged. No write access, no scheduling, no patient cr
 - [Example](#example)
 - [Setup](#setup)
 - [Environment variables](#environment-variables)
+- [Troubleshooting](#troubleshooting)
 - [Security & HIPAA](#security--hipaa)
 - [How it differs from the alternative](#how-it-differs-from-the-alternative)
 - [Development](#development)
@@ -35,7 +36,7 @@ flowchart LR
 
     subgraph S["practice-fusion-mcp"]
       direction TB
-      T["12 read tools<br/>patients · providers · appointments<br/>conditions · meds · labs · vitals<br/>allergies · immunizations<br/>encounters · documents"]
+      T["13 read tools<br/>patients · providers · appointments<br/>conditions · meds · labs · vitals<br/>allergies · immunizations<br/>encounters · documents · coverage"]
       A["Audit logger<br/>stderr + optional file<br/>PHI-redacted"]
       F["FHIR client<br/>Bundle unwrap · shapers<br/>pagination · sanitized errors"]
       TP["SMART backend-services<br/>TokenProvider<br/>signed JWT assertion · token cache"]
@@ -76,11 +77,11 @@ All tools are namespaced with a `practicefusion_` prefix (so they don't collide 
 
 **Records**
 
-| Tool                              | What it does                                    |
-| --------------------------------- | ----------------------------------------------- |
-| `practicefusion_get_appointments` | Appointments by patient / status / date         |
-| `practicefusion_get_encounters`   | A patient's clinical encounters (visits)        |
-| `practicefusion_get_documents`    | A patient's document references (note metadata) |
+| Tool                              | What it does                                           |
+| --------------------------------- | ------------------------------------------------------ |
+| `practicefusion_get_appointments` | Appointments by patient / status / date                |
+| `practicefusion_get_encounters`   | A patient's clinical encounters (visits)               |
+| `practicefusion_get_documents`    | A patient's document references (note metadata)        |
 | `practicefusion_get_coverage`     | A patient's insurance Coverage (status, payer, period) |
 
 ## Example
@@ -131,19 +132,36 @@ Because every tool returns `structuredContent`, the client gets typed objects �
 
 ### Environment variables
 
-| Var                     | Required | Default         | Notes                                                                                       |
-| ----------------------- | -------- | --------------- | ------------------------------------------------------------------------------------------- |
-| `PF_FHIR_BASE_URL`      | yes      | —               | FHIR R4 base URL                                                                            |
-| `PF_TOKEN_URL`          | yes      | —               | OAuth2 token endpoint                                                                       |
-| `PF_CLIENT_ID`          | yes      | —               | Backend-services client id                                                                  |
-| `PF_PRIVATE_KEY`        | yes      | —               | PKCS8 PEM private key (matches the registered public key)                                   |
-| `PF_SCOPES`             | no       | `system/*.read` | Requested scopes                                                                            |
-| `PF_TOKEN_ALG`          | no       | `RS384`         | JWT signing alg                                                                             |
-| `PF_AUDIT_LOG`          | no       | —               | Optional file path for audit records (always also written to stderr)                        |
-| `PF_AUDIT_LOG_FORMAT`   | no       | `text`         | Audit log file format: `text` (multi-line, human-readable) or `ndjson` (one JSON object per line, SIEM-friendly). stderr always uses `text`. |
-| `PF_RETRY_MAX_ATTEMPTS` | no       | `4`             | Total attempts for transient FHIR responses (429/502/503/504). 1 = no retry.                  |
-| `PF_RETRY_BASE_MS`      | no       | `500`           | Initial backoff in ms. Doubles each attempt (500 → 1000 → 2000 …) up to `PF_RETRY_CAP_MS`.   |
-| `PF_RETRY_CAP_MS`       | no       | `8000`          | Maximum backoff between retries. `Retry-After` from the server is always honored.            |
+| Var                     | Required | Default         | Notes                                                                                                                                        |
+| ----------------------- | -------- | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `PF_FHIR_BASE_URL`      | yes      | —               | FHIR R4 base URL                                                                                                                             |
+| `PF_TOKEN_URL`          | yes      | —               | OAuth2 token endpoint                                                                                                                        |
+| `PF_CLIENT_ID`          | yes      | —               | Backend-services client id                                                                                                                   |
+| `PF_PRIVATE_KEY`        | yes      | —               | PKCS8 PEM private key (matches the registered public key)                                                                                    |
+| `PF_SCOPES`             | no       | `system/*.read` | Requested scopes                                                                                                                             |
+| `PF_TOKEN_ALG`          | no       | `RS384`         | JWT signing alg                                                                                                                              |
+| `PF_AUDIT_LOG`          | no       | —               | Optional file path for audit records (always also written to stderr)                                                                         |
+| `PF_AUDIT_LOG_FORMAT`   | no       | `text`          | Audit log file format: `text` (multi-line, human-readable) or `ndjson` (one JSON object per line, SIEM-friendly). stderr always uses `text`. |
+| `PF_RETRY_MAX_ATTEMPTS` | no       | `4`             | Total attempts for transient FHIR responses (429/502/503/504). 1 = no retry.                                                                 |
+| `PF_RETRY_BASE_MS`      | no       | `500`           | Initial backoff in ms. Doubles each attempt (500 → 1000 → 2000 …) up to `PF_RETRY_CAP_MS`.                                                   |
+| `PF_RETRY_CAP_MS`       | no       | `8000`          | Maximum backoff between retries. `Retry-After` from the server is always honored.                                                            |
+
+## Troubleshooting
+
+If the server fails to start, the boot path prints a deployer-friendly error instead of a raw Zod dump. Each line names the env var and the fix:
+
+```
+practicefusion-mcp: configuration error
+  ✗ PF_CLIENT_ID: required env var is missing
+      Set it in your MCP client config or .env, e.g. the client_id from your SMART backend-services app
+  ✗ PF_PRIVATE_KEY: required env var is missing
+      Key must start with -----BEGIN PRIVATE KEY----- and be PKCS8 format
+  ✗ PF_FHIR_BASE_URL: Invalid URL
+      Must be a URL, e.g. https://fhir.practicefusion.com/r4
+  … and 2 more (set PF_VERBOSE=1 for full output)
+```
+
+Values are never echoed — only the env var name. Set `PF_VERBOSE=1` in your MCP client config to get the raw Zod issue tree when the friendly output isn't enough. The server exits 1 on any configuration error so the host can surface it.
 
 ## Security & HIPAA
 
