@@ -151,20 +151,20 @@ Because every tool returns `structuredContent`, the client gets typed objects �
 
 The server speaks the [Model Context Protocol](https://modelcontextprotocol.io) over stdio, so it works in any MCP client that supports a local `command + args + env` config. Pick your client:
 
-| Client                                | Tested | Setup                                                                                                                      |
-| ------------------------------------- | :----: | -------------------------------------------------------------------------------------------------------------------------- |
-| Claude Desktop                        |   ✅   | [`docs/clients/claude-desktop.md`](docs/clients/claude-desktop.md)                                                         |
-| Claude Code                           |   ✅   | [`docs/clients/claude-code.md`](docs/clients/claude-code.md)                                                               |
-| Cursor                                |   ✅   | [`docs/clients/cursor.md`](docs/clients/cursor.md)                                                                         |
-| VS Code + GitHub Copilot (Agent mode) |   ✅   | [`docs/clients/vscode-copilot.md`](docs/clients/vscode-copilot.md)                                                         |
-| OpenCode                              |   ✅   | below — _Other clients_                                                                                                    |
-| Codex CLI                             |   ✅   | below — _Other clients_                                                                                                    |
-| Cline / Roo Cline                     |   ✅   | below — _Other clients_                                                                                                    |
-| Windsurf                              |   ✅   | below — _Other clients_                                                                                                    |
-| Continue.dev                          |   ✅   | below — _Other clients_                                                                                                    |
-| T3 code                                 |   —   | GUI wrapper — install the MCP server in the underlying agent (Codex, Claude, Cursor, or OpenCode); the configs above apply |
-| R21 Hermes Agent (R21-internal)         |   ✅   | below — _R21 fleet_                                                                |
-| R21 OpenClaw host (R21-internal)        |   —   | host (not a client) — install the MCP server in whichever agent runs on the machine (Claude Code / OpenCode / Codex CLI); the configs above apply |
+| Client                                | Tested | Setup                                                                                                                                             |
+| ------------------------------------- | :----: | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Claude Desktop                        |   ✅   | [`docs/clients/claude-desktop.md`](docs/clients/claude-desktop.md)                                                                                |
+| Claude Code                           |   ✅   | [`docs/clients/claude-code.md`](docs/clients/claude-code.md)                                                                                      |
+| Cursor                                |   ✅   | [`docs/clients/cursor.md`](docs/clients/cursor.md)                                                                                                |
+| VS Code + GitHub Copilot (Agent mode) |   ✅   | [`docs/clients/vscode-copilot.md`](docs/clients/vscode-copilot.md)                                                                                |
+| OpenCode                              |   ✅   | below — _Other clients_                                                                                                                           |
+| Codex CLI                             |   ✅   | below — _Other clients_                                                                                                                           |
+| Cline / Roo Cline                     |   ✅   | below — _Other clients_                                                                                                                           |
+| Windsurf                              |   ✅   | below — _Other clients_                                                                                                                           |
+| Continue.dev                          |   ✅   | below — _Other clients_                                                                                                                           |
+| T3 code                               |   —    | GUI wrapper — install the MCP server in the underlying agent (Codex, Claude, Cursor, or OpenCode); the configs above apply                        |
+| R21 Hermes Agent (R21-internal)       |   ✅   | below — _R21 fleet_                                                                                                                               |
+| R21 OpenClaw host (R21-internal)      |   —    | host (not a client) — install the MCP server in whichever agent runs on the machine (Claude Code / OpenCode / Codex CLI); the configs above apply |
 
 The same `PF_*` environment variables apply everywhere. The package is published on npm, so every config uses the same `command: npx` / `args: ["-y", "practice-fusion-mcp"]` pair; only the file location and JSON key (`mcpServers` vs `servers` vs `mcp` etc.) differ.
 
