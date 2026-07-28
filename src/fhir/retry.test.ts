@@ -1,7 +1,9 @@
 import { describe, it, expect, vi } from "vitest";
 import { withRetry, parseRetryAfter, HttpError } from "./retry.js";
 
-const ok = (body = "ok"): { status: number; body: string; headers: Headers; value: () => string } => ({
+const ok = (
+  body = "ok",
+): { status: number; body: string; headers: Headers; value: () => string } => ({
   status: 200,
   body,
   headers: new Headers(),
@@ -21,7 +23,12 @@ const fail = (status: number, body = "boom", retryAfter?: string): never =>
 const noSleep = (): Promise<void> => Promise.resolve();
 const captureSleep = () => {
   const calls: number[] = [];
-  return { sleep: async (ms: number): Promise<void> => { calls.push(ms); }, calls };
+  return {
+    sleep: async (ms: number): Promise<void> => {
+      calls.push(ms);
+    },
+    calls,
+  };
 };
 
 describe("parseRetryAfter", () => {
@@ -62,10 +69,7 @@ describe("withRetry", () => {
   });
 
   it("retries 429 then succeeds", async () => {
-    const fn = vi
-      .fn()
-      .mockReturnValueOnce(fail(429, "rate-limited"))
-      .mockReturnValueOnce(ok("ok"));
+    const fn = vi.fn().mockReturnValueOnce(fail(429, "rate-limited")).mockReturnValueOnce(ok("ok"));
     const { sleep, calls } = captureSleep();
     const result = await withRetry(fn, { sleep, jitter: 0 });
     expect(result).toEqual({ value: "ok", attempts: 2 });
@@ -94,7 +98,13 @@ describe("withRetry", () => {
       .mockReturnValueOnce(fail(503))
       .mockReturnValueOnce(ok("ok"));
     const { sleep, calls } = captureSleep();
-    const result = await withRetry(fn, { sleep, maxAttempts: 5, baseMs: 100, capMs: 1000, jitter: 0 });
+    const result = await withRetry(fn, {
+      sleep,
+      maxAttempts: 5,
+      baseMs: 100,
+      capMs: 1000,
+      jitter: 0,
+    });
     expect(result.attempts).toBe(5);
     // backoff: 100, 200, 400, 800 (then 1000 cap, but we succeeded before that)
     expect(calls).toEqual([100, 200, 400, 800]);
@@ -150,10 +160,7 @@ describe("withRetry", () => {
 
   it("retries on network error then succeeds", async () => {
     const netErr = new Error("ECONNRESET");
-    const fn = vi
-      .fn()
-      .mockRejectedValueOnce(netErr)
-      .mockReturnValueOnce(ok("ok"));
+    const fn = vi.fn().mockRejectedValueOnce(netErr).mockReturnValueOnce(ok("ok"));
     const { sleep, calls } = captureSleep();
     const result = await withRetry(fn, { sleep, jitter: 0 });
     expect(result).toEqual({ value: "ok", attempts: 2 });
@@ -177,7 +184,8 @@ describe("withRetry", () => {
     const events: Array<{ attempt: number; status: number; retryAfter?: string }> = [];
     await withRetry(fn, {
       sleep: noSleep,
-      onRetry: (info) => events.push({ attempt: info.attempt, status: info.status, retryAfter: info.retryAfter }),
+      onRetry: (info) =>
+        events.push({ attempt: info.attempt, status: info.status, retryAfter: info.retryAfter }),
     });
     expect(events).toEqual([
       { attempt: 1, status: 429, retryAfter: "1" },
