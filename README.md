@@ -22,8 +22,9 @@ Read-only by design. Audit-logged. No write access, no scheduling, no patient cr
 - [Tools](#tools)
 - [Example](#example)
 - [Setup](#setup)
-- [Environment variables](#environment-variables)
-- [Troubleshooting](#troubleshooting)
+  - [Environment variables](#environment-variables)
+  - [MCP clients](#mcp-clients)
+  - [Troubleshooting](#troubleshooting)
 - [Security & HIPAA](#security--hipaa)
 - [How it differs from the alternative](#how-it-differs-from-the-alternative)
 - [Development](#development)
@@ -151,6 +152,85 @@ Because every tool returns `structuredContent`, the client gets typed objects �
 | `PF_RETRY_MAX_ATTEMPTS` | no       | `4`             | Total attempts for transient FHIR responses (429/502/503/504). 1 = no retry.                                                                 |
 | `PF_RETRY_BASE_MS`      | no       | `500`           | Initial backoff in ms. Doubles each attempt (500 → 1000 → 2000 …) up to `PF_RETRY_CAP_MS`.                                                   |
 | `PF_RETRY_CAP_MS`       | no       | `8000`          | Maximum backoff between retries. `Retry-After` from the server is always honored.                                                            |
+
+## MCP clients
+
+The server speaks the [Model Context Protocol](https://modelcontextprotocol.io) over stdio, so it works in any MCP client that supports a local `command + args + env` config. Pick your client:
+
+| Client                                | Tested | Setup                                                                                                                                             |
+| ------------------------------------- | :----: | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Claude Desktop                        |   ✅   | [`docs/clients/claude-desktop.md`](docs/clients/claude-desktop.md)                                                                                |
+| Claude Code                           |   ✅   | [`docs/clients/claude-code.md`](docs/clients/claude-code.md)                                                                                      |
+| Cursor                                |   ✅   | [`docs/clients/cursor.md`](docs/clients/cursor.md)                                                                                                |
+| VS Code + GitHub Copilot (Agent mode) |   ✅   | [`docs/clients/vscode-copilot.md`](docs/clients/vscode-copilot.md)                                                                                |
+| OpenCode                              |   ✅   | below — _Other clients_                                                                                                                           |
+| Codex CLI                             |   ✅   | below — _Other clients_                                                                                                                           |
+| Cline / Roo Cline                     |   ✅   | below — _Other clients_                                                                                                                           |
+| Windsurf                              |   ✅   | below — _Other clients_                                                                                                                           |
+| Continue.dev                          |   ✅   | below — _Other clients_                                                                                                                           |
+| T3 code                               |   —    | GUI wrapper — install the MCP server in the underlying agent (Codex, Claude, Cursor, or OpenCode); the configs above apply                        |
+| R21 Hermes Agent (R21-internal)       |   ✅   | below — _R21 fleet_                                                                                                                               |
+| R21 OpenClaw host (R21-internal)      |   —    | host (not a client) — install the MCP server in whichever agent runs on the machine (Claude Code / OpenCode / Codex CLI); the configs above apply |
+
+The same `PF_*` environment variables apply everywhere. The package is published on npm, so every config uses the same `command: npx` / `args: ["-y", "practice-fusion-mcp"]` pair; only the file location and JSON key (`mcpServers` vs `servers` vs `mcp` etc.) differ.
+
+### Other clients (one-liner configs)
+
+All five use the same `{ command, args, env }` shape. Only the config file location and JSON key differ.
+
+**OpenCode** — global `~/.config/opencode/config.json` or per-project `opencode.json`:
+
+```json
+{
+  "mcp": {
+    "practice-fusion": {
+      "type": "local",
+      "command": ["npx", "-y", "practice-fusion-mcp"],
+      "environment": {
+        "PF_FHIR_BASE_URL": "https://fhir.practicefusion.com/r4",
+        "PF_TOKEN_URL": "https://auth.practicefusion.com/token",
+        "PF_CLIENT_ID": "your-client-id",
+        "PF_PRIVATE_KEY": "-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----"
+      }
+    }
+  }
+}
+```
+
+**Codex CLI** — `~/.codex/config.toml`:
+
+```toml
+[mcp_servers.practice-fusion]
+command = "npx"
+args = ["-y", "practice-fusion-mcp"]
+
+[mcp_servers.practice-fusion.env]
+PF_FHIR_BASE_URL = "https://fhir.practicefusion.com/r4"
+PF_TOKEN_URL = "https://auth.practicefusion.com/token"
+PF_CLIENT_ID = "your-client-id"
+PF_PRIVATE_KEY = """-----BEGIN PRIVATE KEY-----
+...your key...
+-----END PRIVATE KEY-----"""
+```
+
+**Cline / Roo Cline** — Cline MCP settings panel, or `.cline/mcp_settings.json` directly (same shape as Claude Desktop — see [Setup](#setup)).
+
+**Windsurf** — `~/.codeium/windsurf/mcp_config.json` (same shape as Claude Desktop).
+
+**Continue.dev** — `~/.continue/config.json` under the `mcpServers` key (same shape as Claude Desktop).
+
+### Models
+
+`practice-fusion-mcp` is model-agnostic — it doesn't care which LLM sits behind the client. Use Anthropic Claude (in any of the above clients), OpenAI GPT (Codex, Cursor, Continue), Google Gemini (Continue, Cline), local Ollama models, or **NVIDIA Nemotron** served via NIM inside any of the clients that accept a custom OpenAI-compatible endpoint (most do). The model you pick only changes answer quality, not which tools the server exposes.
+
+### R21 fleet
+
+The maintainer (R21 Digital) runs practice-fusion-mcp across two R21-internal surfaces:
+
+- **Hermes Agent** — R21's multi-agent orchestration. Wire the MCP server into the Hermes sub-agent that handles healthcare/EHR work; the `npx -y practice-fusion-mcp` invocation is wrapped in a Make.com scenario or a Hermes tool spec. The deployer-friendly error banner (see [Troubleshooting](#troubleshooting)) plays well with Hermes' tool-call surfaces.
+- **OpenClaw** — one of the R21 fleet machines. OpenClaw is a host, not a client — the right setup is whichever agent runs there (typically Claude Code or OpenCode on the R21 fleet). Use the per-client config above for whichever agent you launch the MCP from.
+
+For deeper R21-internal deployment notes (Make.com scenarios, Hermes sub-agent patterns, fleet-wide credential rotation), see the R21-internal `docs/clients/hermes.md` and `docs/clients/openclaw.md` (R21 Digital workspace, not this public repo).
 
 ## Troubleshooting
 
