@@ -33,8 +33,7 @@ const DEFAULTS: Required<Pick<RetryOptions, "maxAttempts" | "baseMs" | "capMs" |
   jitter: 0.5,
 };
 
-const realSleep = (ms: number): Promise<void> =>
-  new Promise((resolve) => setTimeout(resolve, ms));
+const realSleep = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
 
 /** Parse a Retry-After header value. Returns ms, or null if unparseable. */
 export function parseRetryAfter(
@@ -129,7 +128,12 @@ export async function withRetry<T>(
       `FHIR request failed: ${res.status} (attempt ${attempt} of ${maxAttempts})`,
     );
 
-    options.onRetry?.({ attempt, status: res.status, delayMs, retryAfter: retryAfter ?? undefined });
+    options.onRetry?.({
+      attempt,
+      status: res.status,
+      delayMs,
+      retryAfter: retryAfter ?? undefined,
+    });
     await sleep(delayMs);
   }
 

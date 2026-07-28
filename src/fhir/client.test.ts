@@ -107,10 +107,9 @@ describe("FhirClient", () => {
         new Response("rate limited", { status: 429, headers: { "retry-after": "1" } }),
       )
       .mockResolvedValueOnce(
-        new Response(
-          JSON.stringify({ resourceType: "Bundle", type: "searchset", entry: [] }),
-          { status: 200 },
-        ),
+        new Response(JSON.stringify({ resourceType: "Bundle", type: "searchset", entry: [] }), {
+          status: 200,
+        }),
       );
     const client = new FhirClient("https://fhir.example.com/r4", tokenProvider, { sleep: noSleep });
     const result = await client.search("Patient", { name: "x" });

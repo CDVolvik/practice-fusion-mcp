@@ -1,13 +1,19 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { loadConfig } from "./config.js";
+import { formatConfigErrors } from "./config-errors.js";
 import { AuditLogger } from "./audit/logger.js";
 import { TokenProvider } from "./auth/backend-auth.js";
 import { FhirClient } from "./fhir/client.js";
 import { registerAllTools } from "./tools/index.js";
 
 async function main(): Promise<void> {
-  const config = loadConfig();
+  const result = loadConfig();
+  if (!result.ok) {
+    console.error(formatConfigErrors(result.error));
+    process.exit(1);
+  }
+  const config = result.value;
   const audit = new AuditLogger(config.auditLogPath, config.auditLogFormat);
   const tokens = new TokenProvider({
     tokenUrl: config.tokenUrl,
@@ -27,7 +33,9 @@ async function main(): Promise<void> {
 
   const transport = new StdioServerTransport();
   await server.connect(transport);
-  console.error("practice-fusion-mcp running on stdio");
+  console.error(
+    `practice-fusion-mcp: ready (13 tools, audit=${config.auditLogPath ? "file" : "stderr"}, retry=${config.retryMaxAttempts}/${config.retryBaseMs}ms-${config.retryCapMs}ms)`,
+  );
 }
 
 main().catch((e) => {

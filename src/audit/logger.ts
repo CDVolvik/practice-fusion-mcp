@@ -43,10 +43,7 @@ function normalize(entry: AuditEntry): NormalizedEntry {
 }
 
 function formatText(e: NormalizedEntry): string {
-  const lines = [
-    `[${e.ts}] ${e.tool} (${e.outcome})`,
-    `  params: ${JSON.stringify(e.params)}`,
-  ];
+  const lines = [`[${e.ts}] ${e.tool} (${e.outcome})`, `  params: ${JSON.stringify(e.params)}`];
   if (e.error) lines.push(`  error: ${e.error}`);
   return lines.join("\n") + "\n";
 }
