@@ -162,7 +162,9 @@ The server speaks the [Model Context Protocol](https://modelcontextprotocol.io) 
 | Cline / Roo Cline                     |   ✅   | below — _Other clients_                                                                                                    |
 | Windsurf                              |   ✅   | below — _Other clients_                                                                                                    |
 | Continue.dev                          |   ✅   | below — _Other clients_                                                                                                    |
-| T3 code                               |   —    | GUI wrapper — install the MCP server in the underlying agent (Codex, Claude, Cursor, or OpenCode); the configs above apply |
+| T3 code                                 |   —   | GUI wrapper — install the MCP server in the underlying agent (Codex, Claude, Cursor, or OpenCode); the configs above apply |
+| R21 Hermes Agent (R21-internal)         |   ✅   | below — _R21 fleet_                                                                |
+| R21 OpenClaw host (R21-internal)        |   —   | host (not a client) — install the MCP server in whichever agent runs on the machine (Claude Code / OpenCode / Codex CLI); the configs above apply |
 
 The same `PF_*` environment variables apply everywhere. The package is published on npm, so every config uses the same `command: npx` / `args: ["-y", "practice-fusion-mcp"]` pair; only the file location and JSON key (`mcpServers` vs `servers` vs `mcp` etc.) differ.
 
@@ -214,6 +216,15 @@ PF_PRIVATE_KEY = """-----BEGIN PRIVATE KEY-----
 ### Models
 
 `practice-fusion-mcp` is model-agnostic — it doesn't care which LLM sits behind the client. Use Anthropic Claude (in any of the above clients), OpenAI GPT (Codex, Cursor, Continue), Google Gemini (Continue, Cline), local Ollama models, or **NVIDIA Nemotron** served via NIM inside any of the clients that accept a custom OpenAI-compatible endpoint (most do). The model you pick only changes answer quality, not which tools the server exposes.
+
+### R21 fleet
+
+The maintainer (R21 Digital) runs practice-fusion-mcp across two R21-internal surfaces:
+
+- **Hermes Agent** — R21's multi-agent orchestration. Wire the MCP server into the Hermes sub-agent that handles healthcare/EHR work; the `npx -y practice-fusion-mcp` invocation is wrapped in a Make.com scenario or a Hermes tool spec. The deployer-friendly error banner (see [Troubleshooting](#troubleshooting)) plays well with Hermes' tool-call surfaces.
+- **OpenClaw** — one of the R21 fleet machines. OpenClaw is a host, not a client — the right setup is whichever agent runs there (typically Claude Code or OpenCode on the R21 fleet). Use the per-client config above for whichever agent you launch the MCP from.
+
+For deeper R21-internal deployment notes (Make.com scenarios, Hermes sub-agent patterns, fleet-wide credential rotation), see the R21-internal `docs/clients/hermes.md` and `docs/clients/openclaw.md` (R21 Digital workspace, not this public repo).
 
 ## Troubleshooting
 
