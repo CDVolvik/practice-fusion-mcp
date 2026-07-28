@@ -255,7 +255,19 @@ This server handles Protected Health Information. **You**, the deployer, are the
 
 ## How it differs from the alternative
 
-The other Practice Fusion MCP is built on Practice Fusion's _proprietary Unity APIs_ (paid Integrator tier) and is write-heavy. This one is **FHIR-based** (runs on the **free** Open account), **read-only** (smaller risk surface), and **audit-logged**.
+As of 7/28 there is no other open-source MCP server that targets Practice Fusion's EHR specifically — searched both Glama and GitHub. (There is a paid Practice Fusion Integrator tier built on the proprietary Unity APIs; that path requires a Veradigm partnership and isn't an open MCP server.) This one is **FHIR-based** (runs on the **free** Open FHIR account), **read-only** (smaller risk surface), and **audit-logged** — and it's the only public MCP option for Practice Fusion.
+
+## Related MCP servers
+
+If you arrived here looking for "any Practice Fusion MCP" and now want the wider FHIR / EHR / healthcare MCP landscape:
+
+- [wso2/fhir-mcp-server](https://github.com/wso2/fhir-mcp-server) — generic FHIR R4 MCP server, language-agnostic, MIT.
+- [the-momentum/fhir-mcp-server](https://github.com/the-momentum/fhir-mcp-server) — FHIR MCP server for medical data standards.
+- [erikhoward/azure-fhir-mcp-server](https://github.com/erikhoward/azure-fhir-mcp-server) — FHIR R4 against Azure Health Data Services (similar shape, Microsoft stack).
+- [jcafazzo/fhir-mcp](https://github.com/jcafazzo/fhir-mcp) — enhanced FHIR MCP with data-quality assessment and broader clinical coverage.
+- [DhairyaShah981/fhir-mcp](https://github.com/DhairyaShah981/fhir-mcp) — clinical-data bridge with reversible keyed de-identification and CDS Hooks.
+
+Glama's [MCP directory](https://glama.ai/mcp/servers) lists all of these plus ~62k others. This server is on Glama as [practice-fusion-mcp](https://glama.ai/mcp/servers/kushaim/practice-fusion-mcp).
 
 ## Development
 
