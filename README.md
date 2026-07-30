@@ -255,7 +255,9 @@ This server handles Protected Health Information. **You**, the deployer, are the
 
 ## How it differs from the alternative
 
-As of 7/28 there is no other open-source MCP server that targets Practice Fusion's EHR specifically — searched both Glama and GitHub. (There is a paid Practice Fusion Integrator tier built on the proprietary Unity APIs; that path requires a Veradigm partnership and isn't an open MCP server.) This one is **FHIR-based** (runs on the **free** Open FHIR account), **read-only** (smaller risk surface), and **audit-logged** — and it's the only public MCP option for Practice Fusion.
+The other way to reach a Practice Fusion EHR is the proprietary Unity APIs. The official Practice Fusion Integrator tier is built on them and needs a Veradigm partnership; community MCP servers built on the same APIs have shown up in the directories too, and they tend to be **read-write** — creating patients, booking appointments, editing insurance.
+
+This server takes the FHIR route instead. It runs on Practice Fusion's **free** Open FHIR account with no partnership, and it is **read-only** and **audit-logged** on purpose: a deliberately small risk surface for putting an EHR behind an LLM. If you need to write data or manage scheduling, a proprietary-API server will fit you better; if you want EHR reads you can reason about, this is the one.
 
 ## Related MCP servers
 
