@@ -4,6 +4,15 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+
+- The startup banner reported a fixed `13 tools` while fourteen were
+  registered, and the MCP version was a hand-maintained literal. Both now derive
+  from source: the tool count is summed from the registrars, and the version is
+  read from `package.json`.
+
 ## [0.3.0]
 
 ### Added

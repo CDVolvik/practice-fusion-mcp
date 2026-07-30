@@ -11,7 +11,7 @@ const practitionerShape = {
   qualification: z.string().optional().describe("Primary qualification / credential, if present"),
 };
 
-export function registerDirectoryTools(server: McpServer, { client, audit }: ToolDeps): void {
+export function registerDirectoryTools(server: McpServer, { client, audit }: ToolDeps): number {
   server.registerTool(
     "practicefusion_search_practitioners",
     {
@@ -48,4 +48,6 @@ export function registerDirectoryTools(server: McpServer, { client, audit }: Too
       }
     },
   );
+
+  return 1;
 }

@@ -20,7 +20,7 @@ const documentShape = {
   description: z.string().optional().describe("Human-readable description of the document"),
 };
 
-export function registerRecordTools(server: McpServer, { client, audit }: ToolDeps): void {
+export function registerRecordTools(server: McpServer, { client, audit }: ToolDeps): number {
   const patientId = z
     .string()
     .describe("FHIR Patient resource id (from practicefusion_search_patients)");
@@ -84,4 +84,6 @@ export function registerRecordTools(server: McpServer, { client, audit }: ToolDe
       }
     },
   );
+
+  return 2;
 }

@@ -24,7 +24,7 @@ const coverageShape = {
     .describe("Subscriber relationship to the insured, e.g. self, spouse, child"),
 };
 
-export function registerCoverageTools(server: McpServer, { client, audit }: ToolDeps): void {
+export function registerCoverageTools(server: McpServer, { client, audit }: ToolDeps): number {
   const patientId = z
     .string()
     .describe("FHIR Patient resource id (from practicefusion_search_patients)");
@@ -66,4 +66,6 @@ export function registerCoverageTools(server: McpServer, { client, audit }: Tool
       }
     },
   );
+
+  return 1;
 }
