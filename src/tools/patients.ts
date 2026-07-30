@@ -1,12 +1,12 @@
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import type { FhirClient } from "../fhir/client.js";
+import type { FhirReader } from "../fhir/client.js";
 import type { AuditLogger } from "../audit/logger.js";
 import { shapePatient } from "../fhir/shapers.js";
 import { paged, errorResult, listOutputSchema, limitParam, READ_ONLY } from "./result.js";
 
 export interface ToolDeps {
-  client: FhirClient;
+  client: FhirReader;
   audit: AuditLogger;
 }
 
