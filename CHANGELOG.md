@@ -8,6 +8,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- MCP prompts and resources alongside the tools: `pre_visit_summary` and
+  `medication_review` prompt templates, and a `patient-summary` resource at
+  `practicefusion://patient/{patientId}/summary` (audit-logged like tool calls).
 - Demo mode (`--demo` or `PF_DEMO=1`): runs every tool against in-memory
   synthetic FHIR fixtures with no Practice Fusion account, no credentials, and
   no PHI. The fixtures are seeded so the README example runs verbatim.
