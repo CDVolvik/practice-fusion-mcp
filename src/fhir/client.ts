@@ -14,6 +14,24 @@ interface TokenSource {
   getAccessToken(): Promise<string>;
 }
 
+/**
+ * The read surface the tools depend on. `FhirClient` talks to a live Practice
+ * Fusion FHIR API; the demo fixture client implements the same three methods
+ * against in-memory synthetic data, so tools work identically either way.
+ */
+export interface FhirReader {
+  search(
+    resourceType: string,
+    params: Record<string, string>,
+    opts?: { limit?: number },
+  ): Promise<FhirResource[]>;
+  read(resourceType: string, id: string): Promise<FhirResource>;
+  everything(
+    patientId: string,
+    opts?: { types?: string[]; since?: string; limit?: number },
+  ): Promise<FhirResource[]>;
+}
+
 /** Resource types the $everything fallback loops over. Matches the surface
  *  of the existing practicefusion_get_* tools, so the fallback is symmetric
  *  with what users get by calling the typed tools directly. */
@@ -47,7 +65,7 @@ export interface FhirClientOptions {
   sleep?: (ms: number) => Promise<void>;
 }
 
-export class FhirClient {
+export class FhirClient implements FhirReader {
   private readonly retryMaxAttempts: number;
   private readonly retryBaseMs: number;
   private readonly retryCapMs: number;

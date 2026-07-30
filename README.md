@@ -21,6 +21,7 @@ Read-only by design. Audit-logged. No write access, no scheduling, no patient cr
 - [Architecture](#architecture)
 - [Tools](#tools)
 - [Example](#example)
+- [Demo mode](#demo-mode)
 - [Setup](#setup)
   - [Environment variables](#environment-variables)
   - [MCP clients](#mcp-clients)
@@ -113,6 +114,32 @@ practicefusion_get_medications { "patientId": "abc123" }
 > **Assistant:** Ana Rivera has 2 active medications: Lisinopril 10 mg and Atorvastatin 20 mg.
 
 Because every tool returns `structuredContent`, the client gets typed objects — not just text — so it can chain calls reliably.
+
+## Demo mode
+
+You can run everything above with no Practice Fusion account. Demo mode serves in-memory synthetic fixtures — no credentials, no network, no PHI — and the example query returns exactly what's shown.
+
+From a clone:
+
+```bash
+pnpm install
+pnpm dev --demo
+```
+
+Or point an MCP client at the built server with the `--demo` flag (or set `PF_DEMO=1` in its `env`):
+
+```json
+{
+  "mcpServers": {
+    "practice-fusion-demo": {
+      "command": "node",
+      "args": ["/absolute/path/to/practice-fusion-mcp/dist/index.js", "--demo"]
+    }
+  }
+}
+```
+
+The fixtures cover two patients across every resource type — conditions, medications, labs, vitals, allergies, immunizations, appointments, encounters, documents, and coverage — so each tool returns something. It's the quickest way to see the tools before wiring real credentials.
 
 ## Setup
 

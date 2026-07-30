@@ -6,6 +6,12 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+
+- Demo mode (`--demo` or `PF_DEMO=1`): runs every tool against in-memory
+  synthetic FHIR fixtures with no Practice Fusion account, no credentials, and
+  no PHI. The fixtures are seeded so the README example runs verbatim.
+
 ### Fixed
 
 - The startup banner reported a fixed `13 tools` while fourteen were
