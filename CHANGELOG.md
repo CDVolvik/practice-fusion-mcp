@@ -8,6 +8,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Four more read tools, broadening coverage to eighteen:
+  `practicefusion_get_procedures`, `practicefusion_get_diagnostic_reports`,
+  `practicefusion_get_care_plans`, and `practicefusion_get_goals`. The
+  `$everything` fallback covers the new resource types too.
 - MCP prompts and resources alongside the tools: `pre_visit_summary` and
   `medication_review` prompt templates, and a `patient-summary` resource at
   `practicefusion://patient/{patientId}/summary` (audit-logged like tool calls).

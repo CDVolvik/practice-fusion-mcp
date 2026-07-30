@@ -30,11 +30,11 @@ async function connect(searchImpl: () => Promise<unknown[]> = async () => []) {
 }
 
 describe("server integration (in-memory MCP transport)", () => {
-  it("lists all 14 tools, each read-only with an output schema", async () => {
+  it("lists all 18 tools, each read-only with an output schema", async () => {
     const { server, mcpClient } = await connect();
     const { tools } = await mcpClient.listTools();
 
-    expect(tools).toHaveLength(14);
+    expect(tools).toHaveLength(18);
     for (const tool of tools) {
       expect(tool.annotations?.readOnlyHint).toBe(true);
       expect(tool.outputSchema).toBeDefined();
