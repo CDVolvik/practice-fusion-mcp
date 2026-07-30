@@ -6,6 +6,7 @@ import { registerRecordTools } from "./records.js";
 import { registerDirectoryTools } from "./directory.js";
 import { registerCoverageTools } from "./coverage.js";
 import { registerEverythingTool } from "./everything.js";
+import { registerClinicalExtraTools } from "./clinical-extra.js";
 
 /**
  * Register every read tool on the server and return how many were registered.
@@ -21,6 +22,7 @@ export function registerAllTools(server: McpServer, deps: ToolDeps): number {
     registerRecordTools(server, deps) +
     registerDirectoryTools(server, deps) +
     registerCoverageTools(server, deps) +
-    registerEverythingTool(server, deps)
+    registerEverythingTool(server, deps) +
+    registerClinicalExtraTools(server, deps)
   );
 }

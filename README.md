@@ -12,7 +12,7 @@
 ![FHIR R4](https://img.shields.io/badge/FHIR-R4-orange)
 ![Access](https://img.shields.io/badge/access-read--only-blue)
 
-An open-source, **FHIR-first, read-only** [Model Context Protocol](https://modelcontextprotocol.io) server for **Practice Fusion**. Connect Claude (Desktop / Code), Cursor, or any MCP client to a Practice Fusion EHR to search patients and providers and review appointments, conditions, medications, labs, vitals, allergies, immunizations, encounters, and documents — running on Practice Fusion's **free Open FHIR account**.
+An open-source, **FHIR-first, read-only** [Model Context Protocol](https://modelcontextprotocol.io) server for **Practice Fusion**. Connect Claude (Desktop / Code), Cursor, or any MCP client to a Practice Fusion EHR to search patients and providers and review appointments, conditions, medications, labs, vitals, allergies, immunizations, encounters, documents, procedures, diagnostic reports, care plans, and goals — running on Practice Fusion's **free Open FHIR account**.
 
 Read-only by design. Audit-logged. No write access, no scheduling, no patient creation.
 
@@ -39,7 +39,7 @@ flowchart LR
 
     subgraph S["practice-fusion-mcp"]
       direction TB
-      T["14 read tools<br/>patients · providers · appointments<br/>conditions · meds · labs · vitals<br/>allergies · immunizations<br/>encounters · documents · coverage · everything"]
+      T["18 read tools<br/>patients · providers · appointments<br/>conditions · meds · labs · vitals<br/>allergies · immunizations · encounters<br/>documents · coverage · procedures · reports<br/>care plans · goals · everything"]
       A["Audit logger<br/>stderr + optional file<br/>PHI-redacted"]
       F["FHIR client<br/>Bundle unwrap · shapers<br/>pagination · sanitized errors"]
       TP["SMART backend-services<br/>TokenProvider<br/>signed JWT assertion · token cache"]
@@ -92,6 +92,15 @@ All tools are namespaced with a `practicefusion_` prefix (so they don't collide 
 | Tool                            | What it does                                                                                                                                         |
 | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `practicefusion_get_everything` | Pre-visit summary for a single patient — per-type counts plus a bounded sample of raw resources (FHIR `$everything` with a per-type-search fallback) |
+
+**Procedures & care planning**
+
+| Tool                                    | What it does                                   |
+| --------------------------------------- | ---------------------------------------------- |
+| `practicefusion_get_procedures`         | A patient's procedures                         |
+| `practicefusion_get_diagnostic_reports` | A patient's diagnostic (lab / imaging) reports |
+| `practicefusion_get_care_plans`         | A patient's care plans                         |
+| `practicefusion_get_goals`              | A patient's care goals                         |
 
 ## Prompts & resources
 

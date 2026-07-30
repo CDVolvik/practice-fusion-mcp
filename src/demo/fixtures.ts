@@ -158,6 +158,39 @@ export const demoResources: FhirResource[] = [
     period: { start: "2026-01-01", end: "2026-12-31" },
     relationship: { coding: [{ code: "self", display: "Self" }] },
   },
+  {
+    resourceType: "Procedure",
+    id: "proc-1",
+    status: "completed",
+    subject: { reference: "Patient/abc123" },
+    code: { text: "Screening colonoscopy" },
+    performedDateTime: "2025-11-19",
+  },
+  {
+    resourceType: "DiagnosticReport",
+    id: "dr-1",
+    status: "final",
+    subject: { reference: "Patient/abc123" },
+    code: { text: "Lipid panel" },
+    effectiveDateTime: "2026-05-14",
+    conclusion: "LDL mildly elevated; continue statin therapy.",
+  },
+  {
+    resourceType: "CarePlan",
+    id: "cp-1",
+    status: "active",
+    subject: { reference: "Patient/abc123" },
+    title: "Hypertension management",
+    period: { start: "2026-01-15" },
+  },
+  {
+    resourceType: "Goal",
+    id: "goal-1",
+    lifecycleStatus: "active",
+    subject: { reference: "Patient/abc123" },
+    description: { text: "Reduce LDL cholesterol below 100 mg/dL" },
+    target: [{ dueDate: "2026-11-01" }],
+  },
 
   // ---- Marcus Webb (def456) — a smaller record for variety -----------------
   {

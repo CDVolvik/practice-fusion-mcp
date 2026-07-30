@@ -45,6 +45,10 @@ const EVERYTHING_FALLBACK_TYPES = [
   "Encounter",
   "DocumentReference",
   "Coverage",
+  "Procedure",
+  "DiagnosticReport",
+  "CarePlan",
+  "Goal",
 ] as const;
 
 /** True if an error from `get()` means the server does not implement the
