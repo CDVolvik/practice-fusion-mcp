@@ -15,10 +15,18 @@ tsup, so `npx practice-fusion-mcp` works.
 
 ## 2. Bump the version
 
-Update `version` in `package.json`, `server.json`, and the `McpServer` version
-in `src/index.ts`; add a `CHANGELOG.md` entry.
+Update `version` in `package.json` and `server.json`, and add a `CHANGELOG.md`
+entry. The startup banner and `McpServer` version read from `package.json` at
+runtime, so there is nothing to bump in `src/`.
 
 ## 3. Publish to npm
+
+Publishing runs automatically. The [`Publish`](.github/workflows/publish.yml)
+workflow fires on a published GitHub release (step 4) and runs
+`npm publish --provenance`. It needs one repository secret, `NPM_TOKEN` — an npm
+**automation** token from npmjs.com → Access Tokens.
+
+To publish by hand instead:
 
 ```bash
 npm login          # once, as the package owner
