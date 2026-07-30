@@ -280,4 +280,4 @@ pnpm format        # prettier --write
 pnpm build         # bundle to dist/
 ```
 
-CI (GitHub Actions) runs Prettier, ESLint, typecheck, tests, and build on Node 20 and 22. See [CONTRIBUTING.md](CONTRIBUTING.md) to add a tool.
+CI (GitHub Actions) runs Prettier, ESLint, typecheck, tests, and build on Node 20 and 22. See [CONTRIBUTING.md](CONTRIBUTING.md) to add a tool, and [docs/adr](docs/adr/) for the architecture decisions behind the design.
