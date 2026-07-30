@@ -4,6 +4,7 @@
 
 # practice-fusion-mcp
 
+[![npm](https://img.shields.io/npm/v/practice-fusion-mcp?logo=npm&color=cb3837)](https://www.npmjs.com/package/practice-fusion-mcp)
 [![CI](https://github.com/kushaim/practice-fusion-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/kushaim/practice-fusion-mcp/actions/workflows/ci.yml)
 [![Glama score](https://glama.ai/mcp/servers/kushaim/practice-fusion-mcp/badges/score.svg)](https://glama.ai/mcp/servers/kushaim/practice-fusion-mcp)
 ![License: MIT](https://img.shields.io/badge/license-MIT-green)
@@ -148,21 +149,27 @@ Because every tool returns `structuredContent`, the client gets typed objects �
 
 You can run everything above with no Practice Fusion account. Demo mode serves in-memory synthetic fixtures — no credentials, no network, no PHI — and the example query returns exactly what's shown.
 
-From a clone:
+One command, nothing to clone:
+
+```bash
+npx -y practice-fusion-mcp --demo
+```
+
+Or from a clone:
 
 ```bash
 pnpm install
 pnpm dev --demo
 ```
 
-Or point an MCP client at the built server with the `--demo` flag (or set `PF_DEMO=1` in its `env`):
+Or point an MCP client at it with the `--demo` flag (or set `PF_DEMO=1` in its `env`):
 
 ```json
 {
   "mcpServers": {
     "practice-fusion-demo": {
-      "command": "node",
-      "args": ["/absolute/path/to/practice-fusion-mcp/dist/index.js", "--demo"]
+      "command": "npx",
+      "args": ["-y", "practice-fusion-mcp", "--demo"]
     }
   }
 }
