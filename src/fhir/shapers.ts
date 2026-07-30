@@ -113,6 +113,47 @@ export function shapeDocumentReference(r: FhirResource) {
   };
 }
 
+export function shapeProcedure(r: FhirResource) {
+  const p = r as Any;
+  return {
+    id: r.id,
+    procedure: p.code?.text,
+    status: p.status,
+    date: p.performedDateTime ?? p.performedPeriod?.start,
+  };
+}
+
+export function shapeDiagnosticReport(r: FhirResource) {
+  const d = r as Any;
+  return {
+    id: r.id,
+    report: d.code?.text,
+    status: d.status,
+    date: d.effectiveDateTime,
+    conclusion: d.conclusion,
+  };
+}
+
+export function shapeCarePlan(r: FhirResource) {
+  const c = r as Any;
+  return {
+    id: r.id,
+    title: c.title ?? c.category?.[0]?.text,
+    status: c.status,
+    start: c.period?.start,
+  };
+}
+
+export function shapeGoal(r: FhirResource) {
+  const g = r as Any;
+  return {
+    id: r.id,
+    goal: g.description?.text,
+    status: g.lifecycleStatus,
+    dueDate: g.target?.[0]?.dueDate,
+  };
+}
+
 export function shapeCoverage(r: FhirResource) {
   const c = r as Any;
   // FHIR Coverage.type is a CodeableConcept with a coding array; we surface
