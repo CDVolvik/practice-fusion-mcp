@@ -20,6 +20,7 @@ Read-only by design. Audit-logged. No write access, no scheduling, no patient cr
 
 - [Architecture](#architecture)
 - [Tools](#tools)
+- [Prompts & resources](#prompts--resources)
 - [Example](#example)
 - [Demo mode](#demo-mode)
 - [Setup](#setup)
@@ -91,6 +92,25 @@ All tools are namespaced with a `practicefusion_` prefix (so they don't collide 
 | Tool                            | What it does                                                                                                                                         |
 | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `practicefusion_get_everything` | Pre-visit summary for a single patient — per-type counts plus a bounded sample of raw resources (FHIR `$everything` with a per-type-search fallback) |
+
+## Prompts & resources
+
+Beyond tools, the server exposes the other two MCP primitives.
+
+**Prompts** — ready-made templates a client can surface:
+
+| Prompt              | Args        | What it does                                                                                             |
+| ------------------- | ----------- | -------------------------------------------------------------------------------------------------------- |
+| `pre_visit_summary` | `patientId` | Guides the assistant to assemble a one-minute pre-visit summary from the read tools                      |
+| `medication_review` | `patientId` | Reviews a patient's medications against their problems and allergies (decision support, not prescribing) |
+
+**Resources** — readable by URI:
+
+| Resource        | URI                                            | What it returns                                                  |
+| --------------- | ---------------------------------------------- | ---------------------------------------------------------------- |
+| Patient summary | `practicefusion://patient/{patientId}/summary` | Every resource linked to a patient (FHIR `$everything`), as JSON |
+
+Resource reads are audit-logged like tool calls.
 
 ## Example
 

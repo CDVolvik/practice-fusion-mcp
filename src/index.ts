@@ -6,9 +6,13 @@ import { AuditLogger } from "./audit/logger.js";
 import { TokenProvider } from "./auth/backend-auth.js";
 import { FhirClient, type FhirReader } from "./fhir/client.js";
 import { registerAllTools } from "./tools/index.js";
+import { registerPrompts } from "./prompts/prompts.js";
+import { registerResources } from "./resources/patient-summary.js";
 import { readVersion } from "./version.js";
 import { isDemoMode } from "./demo/mode.js";
 import { FixtureFhirClient } from "./demo/fixture-client.js";
+
+const plural = (n: number, noun: string): string => `${n} ${noun}${n === 1 ? "" : "s"}`;
 
 async function main(): Promise<void> {
   let client: FhirReader;
@@ -44,10 +48,14 @@ async function main(): Promise<void> {
 
   const server = new McpServer({ name: "practice-fusion-mcp", version: readVersion() });
   const toolCount = registerAllTools(server, { client, audit });
+  const promptCount = registerPrompts(server);
+  const resourceCount = registerResources(server, { client, audit });
 
   const transport = new StdioServerTransport();
   await server.connect(transport);
-  console.error(`practice-fusion-mcp: ready (${toolCount} tools, ${detail})`);
+  console.error(
+    `practice-fusion-mcp: ready (${plural(toolCount, "tool")}, ${plural(promptCount, "prompt")}, ${plural(resourceCount, "resource")}, ${detail})`,
+  );
 }
 
 main().catch((e) => {
