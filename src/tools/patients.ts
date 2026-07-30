@@ -18,7 +18,7 @@ const patientShape = {
   phone: z.string().optional().describe("Primary phone number, if present"),
 };
 
-export function registerPatientTools(server: McpServer, { client, audit }: ToolDeps): void {
+export function registerPatientTools(server: McpServer, { client, audit }: ToolDeps): number {
   server.registerTool(
     "practicefusion_search_patients",
     {
@@ -98,4 +98,6 @@ export function registerPatientTools(server: McpServer, { client, audit }: ToolD
       }
     },
   );
+
+  return 2;
 }

@@ -42,7 +42,7 @@ const everythingOutputShape = {
     .describe("Up to `limit` raw FHIR resources — call the typed tools for shaped data"),
 };
 
-export function registerEverythingTool(server: McpServer, { client, audit }: ToolDeps): void {
+export function registerEverythingTool(server: McpServer, { client, audit }: ToolDeps): number {
   const patientId = z
     .string()
     .describe("FHIR Patient resource id (from practicefusion_search_patients)");
@@ -110,4 +110,6 @@ export function registerEverythingTool(server: McpServer, { client, audit }: Too
       }
     },
   );
+
+  return 1;
 }

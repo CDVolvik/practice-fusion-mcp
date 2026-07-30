@@ -43,7 +43,7 @@ const immunizationShape = {
   date: z.string().optional().describe("Date administered"),
 };
 
-export function registerClinicalTools(server: McpServer, { client, audit }: ToolDeps): void {
+export function registerClinicalTools(server: McpServer, { client, audit }: ToolDeps): number {
   const patientId = z
     .string()
     .describe("FHIR Patient resource id (from practicefusion_search_patients)");
@@ -222,4 +222,6 @@ export function registerClinicalTools(server: McpServer, { client, audit }: Tool
       }
     },
   );
+
+  return 6;
 }

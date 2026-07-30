@@ -12,7 +12,7 @@ const appointmentShape = {
   patient: z.string().optional().describe("Patient display name for the appointment"),
 };
 
-export function registerAppointmentTools(server: McpServer, { client, audit }: ToolDeps): void {
+export function registerAppointmentTools(server: McpServer, { client, audit }: ToolDeps): number {
   server.registerTool(
     "practicefusion_get_appointments",
     {
@@ -56,4 +56,6 @@ export function registerAppointmentTools(server: McpServer, { client, audit }: T
       }
     },
   );
+
+  return 1;
 }

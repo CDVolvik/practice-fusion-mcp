@@ -6,6 +6,7 @@ import { AuditLogger } from "./audit/logger.js";
 import { TokenProvider } from "./auth/backend-auth.js";
 import { FhirClient } from "./fhir/client.js";
 import { registerAllTools } from "./tools/index.js";
+import { readVersion } from "./version.js";
 
 async function main(): Promise<void> {
   const result = loadConfig();
@@ -28,13 +29,13 @@ async function main(): Promise<void> {
     retryCapMs: config.retryCapMs,
   });
 
-  const server = new McpServer({ name: "practice-fusion-mcp", version: "0.3.0" });
-  registerAllTools(server, { client, audit });
+  const server = new McpServer({ name: "practice-fusion-mcp", version: readVersion() });
+  const toolCount = registerAllTools(server, { client, audit });
 
   const transport = new StdioServerTransport();
   await server.connect(transport);
   console.error(
-    `practice-fusion-mcp: ready (13 tools, audit=${config.auditLogPath ? "file" : "stderr"}, retry=${config.retryMaxAttempts}/${config.retryBaseMs}ms-${config.retryCapMs}ms)`,
+    `practice-fusion-mcp: ready (${toolCount} tools, audit=${config.auditLogPath ? "file" : "stderr"}, retry=${config.retryMaxAttempts}/${config.retryBaseMs}ms-${config.retryCapMs}ms)`,
   );
 }
 

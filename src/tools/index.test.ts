@@ -8,7 +8,9 @@ describe("registerAllTools", () => {
     const names: string[] = [];
     const server = { registerTool: (n: string) => names.push(n) };
     const client = { search: vi.fn(), read: vi.fn(), everything: vi.fn() } as unknown as FhirClient;
-    registerAllTools(server as any, { client, audit: new AuditLogger() });
+    const count = registerAllTools(server as any, { client, audit: new AuditLogger() });
+    expect(count).toBe(names.length);
+    expect(count).toBe(14);
     expect(names.sort()).toEqual(
       [
         "practicefusion_get_allergies",
