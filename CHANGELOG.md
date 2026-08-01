@@ -6,6 +6,22 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Security
+
+- Cleared every open advisory; `pnpm audit` now reports no known vulnerabilities
+  for production and dev alike. Two were reachable from the published package —
+  `fast-uri` (via `ajv`) and `@hono/node-server`, both pulled in by
+  `@modelcontextprotocol/sdk`. The rest were build and test tooling only:
+  `vitest`, `vite`, `esbuild`, and `brace-expansion` (via `eslint`).
+- `@modelcontextprotocol/sdk` moved to `^1.30.0` and `vitest` to `^3.2.7`. The
+  remaining fixes are transitive, so they are pinned through `pnpm.overrides`.
+  Every override sits inside the range its parent already declares — `ajv` asks
+  for `fast-uri@^3.0.1`, and the SDK already permits
+  `@hono/node-server@^1.19.9 || ^2.0.5` — so nothing is forced past a
+  maintainer's stated compatibility.
+- No runtime behaviour changed: 121 tests, typecheck, lint, and build all pass,
+  and the built server still handshakes over stdio and lists all eighteen tools.
+
 ## [0.4.0] - 2026-07-30
 
 ### Added
