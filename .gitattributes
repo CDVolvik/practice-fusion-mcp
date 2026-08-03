@@ -1,0 +1,12 @@
+# Store every text file with LF and check it out with LF on all platforms.
+#
+# Why this is pinned rather than left to each machine: .prettierrc.json sets
+# endOfLine: "lf", so on a Windows clone with core.autocrlf=true the checkout
+# rewrites every file to CRLF and `pnpm format:check` then fails on the whole
+# tree — while CI (ubuntu-latest, LF) stays green. The failure looks like a
+# formatting problem and isn't one, and `prettier --write` "fixes" it by
+# committing CRLF into the repo.
+* text=auto eol=lf
+
+# Binary: never apply line-ending conversion.
+*.png binary
