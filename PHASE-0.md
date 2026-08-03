@@ -70,14 +70,14 @@ pnpm build
 npx @modelcontextprotocol/inspector node dist/index.js
 ```
 
-- Confirm all six tools list.
+- Confirm all 18 tools list.
 - Run `search_patients` (known sandbox name) → copy an id → `get_patient`, `get_appointments`, `get_conditions`, `get_medications`, `get_lab_results`.
 - Confirm each returns shaped JSON, each emits an audit line on stderr, and no token/PHI leaks to stdout.
 - Record which search params PF actually honored in `docs/superpowers/specs/2026-07-17-practice-fusion-mcp-design.md` (Phase 0 verification section); adjust tool `inputSchema`s if PF rejected a param.
 
 ## 7. Publish
 
-Published to GitHub: **[kushaim/practice-fusion-mcp](https://github.com/kushaim/practice-fusion-mcp)** (MIT). Next: list on the MCP registries (`awesome-mcp-servers`, the MCP registry) and — once live-smoked — publish to npm as `practice-fusion-mcp`.
+Published to GitHub: **[kushaim/practice-fusion-mcp](https://github.com/kushaim/practice-fusion-mcp)** (MIT) and to npm as **[`practice-fusion-mcp`](https://www.npmjs.com/package/practice-fusion-mcp)** (0.4.0, 2026-07-30) — publishing did **not** wait on the live smoke, since demo mode exercises every tool against synthetic fixtures. Registry listings are in flight (`awesome-mcp-servers` #10639; Glama listed).
 
 ---
 
