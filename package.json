@@ -69,7 +69,8 @@
       "@hono/node-server": "^2.0.5",
       "vite": "^6.4.3",
       "esbuild": "^0.28.1",
-      "brace-expansion": "^5.0.8"
+      "brace-expansion": "^5.0.8",
+      "postcss": "^8.5.23"
     }
   }
 }
