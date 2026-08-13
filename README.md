@@ -5,8 +5,8 @@
 # practice-fusion-mcp
 
 [![npm](https://img.shields.io/npm/v/practice-fusion-mcp?logo=npm&color=cb3837)](https://www.npmjs.com/package/practice-fusion-mcp)
-[![CI](https://github.com/kushaim/practice-fusion-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/kushaim/practice-fusion-mcp/actions/workflows/ci.yml)
-[![Glama score](https://glama.ai/mcp/servers/kushaim/practice-fusion-mcp/badges/score.svg)](https://glama.ai/mcp/servers/kushaim/practice-fusion-mcp)
+[![CI](https://github.com/CDVolvik/practice-fusion-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/CDVolvik/practice-fusion-mcp/actions/workflows/ci.yml)
+[![Glama score](https://glama.ai/mcp/servers/CDVolvik/practice-fusion-mcp/badges/score.svg)](https://glama.ai/mcp/servers/CDVolvik/practice-fusion-mcp)
 ![License: MIT](https://img.shields.io/badge/license-MIT-green)
 ![Node](https://img.shields.io/badge/node-%3E%3D22-brightgreen?logo=nodedotjs&logoColor=white)
 ![MCP](https://img.shields.io/badge/MCP-server-0a0a14)
@@ -332,7 +332,7 @@ If you arrived here looking for "any Practice Fusion MCP" and now want the wider
 - [jcafazzo/fhir-mcp](https://github.com/jcafazzo/fhir-mcp) — enhanced FHIR MCP with data-quality assessment and broader clinical coverage.
 - [DhairyaShah981/fhir-mcp](https://github.com/DhairyaShah981/fhir-mcp) — clinical-data bridge with reversible keyed de-identification and CDS Hooks.
 
-Glama's [MCP directory](https://glama.ai/mcp/servers) lists all of these plus ~62k others. This server is on Glama as [practice-fusion-mcp](https://glama.ai/mcp/servers/kushaim/practice-fusion-mcp).
+Glama's [MCP directory](https://glama.ai/mcp/servers) lists all of these plus ~62k others. This server is on Glama as [practice-fusion-mcp](https://glama.ai/mcp/servers/CDVolvik/practice-fusion-mcp).
 
 ## Development
 
