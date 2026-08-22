@@ -43,7 +43,7 @@ gh release create vX.Y.Z --title "vX.Y.Z" --notes-file - < <changelog excerpt>
 ## 5. Publish to the MCP Registry (optional, after npm)
 
 The registry validates ownership two ways: the npm package must contain
-`"mcpName": "io.github.kushaim/practice-fusion-mcp"` in its `package.json` (it
+`"mcpName": "io.github.CDVolvik/practice-fusion-mcp"` in its `package.json` (it
 does), and you authenticate to the registry via GitHub.
 
 ```bash

@@ -1,9 +1,9 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json",
-  "name": "io.github.kushaim/practice-fusion-mcp",
+  "name": "io.github.CDVolvik/practice-fusion-mcp",
   "description": "FHIR-first, read-only MCP server for Practice Fusion",
   "repository": {
-    "url": "https://github.com/kushaim/practice-fusion-mcp",
+    "url": "https://github.com/CDVolvik/practice-fusion-mcp",
     "source": "github"
   },
   "version": "0.4.0",

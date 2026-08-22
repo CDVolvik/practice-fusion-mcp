@@ -3,7 +3,7 @@
 ## Reporting a vulnerability
 
 Please report security issues privately via GitHub Security Advisories
-([**Report a vulnerability**](https://github.com/kushaim/practice-fusion-mcp/security/advisories/new))
+([**Report a vulnerability**](https://github.com/CDVolvik/practice-fusion-mcp/security/advisories/new))
 rather than opening a public issue. You'll get an acknowledgement within a few
 business days.
 
