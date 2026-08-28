@@ -20,14 +20,14 @@ describe("directory tools", () => {
       {
         resourceType: "Practitioner",
         id: "pr1",
-        name: [{ given: ["Iván"], family: "Irizarry" }],
+        name: [{ given: ["Adam"], family: "Careful" }],
         telecom: [{ system: "phone", value: "787-555-0100" }],
         qualification: [{ code: { text: "MD" } }],
       },
     ]);
-    const res = await handlers.get("practicefusion_search_practitioners")!({ name: "irizarry" });
-    expect(client.search).toHaveBeenCalledWith("Practitioner", { name: "irizarry" }, { limit: 50 });
-    expect(res.structuredContent.results[0].name).toBe("Iván Irizarry");
+    const res = await handlers.get("practicefusion_search_practitioners")!({ name: "careful" });
+    expect(client.search).toHaveBeenCalledWith("Practitioner", { name: "careful" }, { limit: 50 });
+    expect(res.structuredContent.results[0].name).toBe("Adam Careful");
     expect(res.structuredContent.results[0].qualification).toBe("MD");
   });
 });
