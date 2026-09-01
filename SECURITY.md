@@ -29,6 +29,24 @@ part of its design, not an afterthought:
 - **Secrets via env only.** The private key is provided through `PF_PRIVATE_KEY`
   and validated at startup; it is never committed and is gitignored.
 
+## Dependency advisories
+
+Open Dependabot alerts on this repository are, as of 0.4.0, all transitive
+through `@modelcontextprotocol/sdk`'s HTTP transport dependencies: `hono`, and
+`ip-address` by way of `express-rate-limit`.
+
+This server only ever constructs a `StdioServerTransport`. It never instantiates
+an HTTP or SSE transport, so that code neither runs nor ships — the published
+bundle contains no reference to any of those packages. Check it yourself:
+
+```bash
+pnpm build
+grep -c -E "hono|express-rate-limit|ip-address" dist/index.js   # 0
+```
+
+Reachability is a reason not to panic, not a reason to skip the bump. Advisories
+are still cleared as the SDK ships updated dependencies.
+
 ## Deployer responsibilities
 
 You, the deployer, are the covered entity or business associate. You are
