@@ -2,7 +2,7 @@
   "name": "practice-fusion-mcp",
   "version": "0.4.0",
   "description": "FHIR-first, read-only MCP server for Practice Fusion",
-  "mcpName": "io.github.kushaim/practice-fusion-mcp",
+  "mcpName": "io.github.CDVolvik/practice-fusion-mcp",
   "license": "MIT",
   "type": "module",
   "keywords": [
@@ -13,13 +13,13 @@
     "ehr",
     "healthcare"
   ],
-  "homepage": "https://github.com/kushaim/practice-fusion-mcp#readme",
+  "homepage": "https://github.com/CDVolvik/practice-fusion-mcp#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kushaim/practice-fusion-mcp.git"
+    "url": "git+https://github.com/CDVolvik/practice-fusion-mcp.git"
   },
   "bugs": {
-    "url": "https://github.com/kushaim/practice-fusion-mcp/issues"
+    "url": "https://github.com/CDVolvik/practice-fusion-mcp/issues"
   },
   "main": "dist/index.js",
   "bin": {
