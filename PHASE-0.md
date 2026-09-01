@@ -77,7 +77,7 @@ npx @modelcontextprotocol/inspector node dist/index.js
 
 ## 7. Publish
 
-Published to GitHub: **[kushaim/practice-fusion-mcp](https://github.com/kushaim/practice-fusion-mcp)** (MIT) and to npm as **[`practice-fusion-mcp`](https://www.npmjs.com/package/practice-fusion-mcp)** (0.4.0, 2026-07-30) — publishing did **not** wait on the live smoke, since demo mode exercises every tool against synthetic fixtures. Registry listings are in flight (`awesome-mcp-servers` #10639; Glama listed).
+Published to GitHub: **[CDVolvik/practice-fusion-mcp](https://github.com/CDVolvik/practice-fusion-mcp)** (MIT, initially under the kushaim account on 2026-07-30, transferred 2026-08-05) and to npm as **[`practice-fusion-mcp`](https://www.npmjs.com/package/practice-fusion-mcp)** (0.4.0, 2026-07-30) — publishing did **not** wait on the live smoke, since demo mode exercises every tool against synthetic fixtures. Registry listings are in flight (`awesome-mcp-servers` #10639; Glama listed).
 
 ---
 

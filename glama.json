@@ -1,6 +1,6 @@
 {
   "$schema": "https://glama.ai/mcp/schemas/server.json",
-  "maintainers": ["kushaim"],
+  "maintainers": ["CDVolvik"],
   "description": "FHIR-first, read-only MCP server for the Practice Fusion EHR. Connects Claude, Cursor, and any MCP client to a Practice Fusion Open FHIR account to search patients and providers and review appointments, conditions, medications, labs, vitals, allergies, immunizations, encounters, documents, coverage, and a pre-visit summary via $everything. Audit-logged, HIPAA-conscious, MIT.",
   "topics": [
     "fhir",
