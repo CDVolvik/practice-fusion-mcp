@@ -29,6 +29,7 @@ Read-only by design. Audit-logged. No write access, no scheduling, no patient cr
   - [MCP clients](#mcp-clients)
   - [Troubleshooting](#troubleshooting)
 - [Security & HIPAA](#security--hipaa)
+- [Known limits](#known-limits)
 - [How it differs from the alternative](#how-it-differs-from-the-alternative)
 - [Development](#development)
 
@@ -41,7 +42,7 @@ flowchart LR
     subgraph S["practice-fusion-mcp"]
       direction TB
       T["18 read tools<br/>patients · providers · appointments<br/>conditions · meds · labs · vitals<br/>allergies · immunizations · encounters<br/>documents · coverage · procedures · reports<br/>care plans · goals · everything"]
-      A["Audit logger<br/>stderr + optional file<br/>PHI-redacted"]
+      A["Audit logger<br/>stderr + optional file<br/>free text redacted"]
       F["FHIR client<br/>Bundle unwrap · shapers<br/>pagination · sanitized errors"]
       TP["SMART backend-services<br/>TokenProvider<br/>signed JWT assertion · token cache"]
       T -. audited .-> A
@@ -315,6 +316,14 @@ Values are never echoed — only the env var name. Set `PF_VERBOSE=1` in your MC
 ## Security & HIPAA
 
 This server handles Protected Health Information. **You**, the deployer, are the covered entity or business associate: you are responsible for your own Business Associate Agreement (BAA) with Veradigm/Practice Fusion and for running this in a HIPAA-appropriate environment. Every tool call is audit-logged (stderr, plus optional file) with long free-text parameters redacted. Tokens and keys are never logged. This project ships code, not a hosted data service. See [SECURITY.md](SECURITY.md) for details. **Not legal advice.**
+
+## Known limits
+
+- **No writes.** No scheduling, no charting, no patient creation. That is the boundary, not a roadmap item.
+- **The audit log contains patient identifiers.** Redaction is by length: free-text parameters over 64 characters become `[redacted:N]`, shorter structured values — a name, a birthdate — are written as sent. That is deliberate; an audit trail that cannot say who was accessed is no use for an accounting of disclosures. Treat the log as PHI and store it accordingly. See [ADR 0005](docs/adr/0005-audit-log-scope.md).
+- **Shaped summaries drop fields.** Each shaper keeps what the task needs. `practicefusion_get_everything` is the escape hatch when that is not enough.
+- **One tenant per process.** A single credential set and a single `TokenProvider`. Serving several practices means running several processes.
+- **Most paths are covered against mocks.** The unit suite runs with no credentials; live coverage against a real tenant is bounded by partner-account approval.
 
 ## How it differs from the alternative
 
