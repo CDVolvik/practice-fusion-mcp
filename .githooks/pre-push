@@ -1,0 +1,8 @@
+#!/bin/sh
+# Format, lint and typecheck before every push. Turn it on once per clone: pnpm hooks:install
+# Skip it once with git push --no-verify (for example, to delete a branch).
+if [ ! -d node_modules ]; then
+  echo "pre-push: no node_modules. Run pnpm install first, or push with --no-verify." >&2
+  exit 1
+fi
+pnpm --silent format:check && pnpm --silent lint && pnpm --silent typecheck
