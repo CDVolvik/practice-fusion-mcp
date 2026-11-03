@@ -19,12 +19,15 @@ test suite mocks the FHIR client. To run against a real EHR, copy
 
 ## Before you open a PR
 
-CI runs Prettier, ESLint, typecheck, tests, and build on Node 20 and 22. Run the
+CI runs Prettier, ESLint, typecheck, tests, and build on Node 22 and 24. Run the
 equivalent locally:
 
 ```bash
 pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build
 ```
+
+`pnpm hooks:install` (once per clone) runs the first three before every `git push`,
+about 11 seconds, so formatting, lint and type errors never reach CI.
 
 - Add or update tests for any behavior change. Every tool has a mock-based test;
   follow the existing pattern in `src/tools/*.test.ts`.
